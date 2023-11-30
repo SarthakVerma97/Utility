@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <title>Paytm JS Checkout - PHP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script type="application/javascript" crossorigin="anonymous"
+        src="https://securegw-stage.paytm.in/merchantpgpui/checkoutjs/merchants/fafosr16695417736194.js"></script>
+    <script type="application/javascript" crossorigin="anonymous"
+        src="https://securegw-stage.paytm.in/merchantpgpui/checkoutjs/merchants/SARTHA95354880925730.js"></script>
+
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="shadow p-3 mb-5 bg-white rounded">
+            <h4>Make Payment</h4>
+            <p>You are making payment of
+
+            </p>
+            <div class="btn-area">
+                <button type="button" id="JSCheckoutPayment2" name="submit1" class="btn btn-primary" target="_blank">Pay
+                    Now1</button>
+                <button type="button" id="JSCheckoutPayment1" name="submit2" class="btn btn-primary" target="_blank">Pay
+                    Now2</button>
+            </div>
+        </div>
+    </div>
+    <div class="container " id="JS-response">
+    </div>
+    <script>
+        document.getElementById("JSCheckoutPayment1").addEventListener("click", function () {
+            openJSCheckoutPopup('ORDR_SARTHA95354880925730_20230103040537', '85eb45cde32342c8a38a959117adbb8c1672742138061', '10000');
+        });
+        document.getElementById("JSCheckoutPayment2").addEventListener("click", function () {
+            openJSCheckoutPopup('ORDR_fafosr16695417736194_20230103040502', 'cde5ad7fe55940daaecd78b6220255961672742102365', '10000');
+        });
+
+        function openJSCheckoutPopup(orderId, txnToken, amount) {
+            console.log(orderId, txnToken, amount);
+            var config = {
+                "root": "",
+                "flow": "DEFAULT",
+                "data": {
+                    "orderId": orderId,
+                    "token": txnToken,
+                    "tokenType": "TXN_TOKEN",
+                    "amount": amount
+                },
+                "handler": {
+                    notifyMerchant: function (eventName, data) {
+                        console.log("notifyMerchant handler function called");
+                        console.log("eventName => ", eventName);
+                        console.log("data => ", data);
+                        if (eventName == 'SESSION_EXPIRED') {
+                            location.reload();
+                        }
+                    }
+                }
+            };
+            if (window.Paytm && window.Paytm.CheckoutJS) {
+                // initialze configuration using init method 
+                window.Paytm.CheckoutJS.init(config)
+                    .then(function onSuccess() {
+                        // after successfully updating configuration, invoke checkoutjs
+                        window.Paytm.CheckoutJS.invoke();
+                    }).catch(function onError(error) {
+                        console.log("error => ", error);
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>

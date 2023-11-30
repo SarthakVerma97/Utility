@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Payment Page</title>
+</head>
+
+<body onload="hideAllFields();">
+    <h1>Payment Details</h1>
+    <form id="paymentForm" action="process_payment.php" method="post">
+        <label for="paymode">Payment Mode:</label>
+        <select id="paymode" name="paymode">
+            <option value="NB">Net Banking</option>
+            <option value="Card">Credit/Debit Card</option>
+            <option value="UPI Collect">UPI Collect</option>
+            <option value="UPI Intent">UPI Intent</option>
+            <option value="EMI">EMI</option>
+        </select>
+        <br>
+        <div id="bankCodeDiv">
+            <label for="bankCode">Bank Code:</label>
+            <input type="text" id="bankCode" name="bankCode">
+        </div>
+        <div id="cardDetailsDiv" style="display:none;">
+            <label for="cardType">Card Type:</label>
+            <select id="cardType" name="cardType">
+                <option value="Credit">Credit Card</option>
+                <option value="Debit">Debit Card</option>
+            </select>
+            <br>
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber">
+            <br>
+            <label for="cvv">CVV:</label>
+            <input type="password" id="cvv" name="cvv">
+            <br>
+            <label for="expiry">Expiry (YYYY):</label>
+            <input type="text" id="expiry" name="expiry">
+        </div>
+        <div id="vpaDiv">
+            <label for="vpa">VPA:</label>
+            <input type="text" id="vpa" name="vpa">
+        </div>
+        <div id="emiDiv">
+            <label for="emiType">EMI Type:</label>
+            <select id="emiType" name="emiType">
+                <option value="Credit">Credit Card EMI</option>
+                <option value="Debit">Debit Card EMI</option>
+            </select>
+            <br>
+            <label for="emiBankCode">Bank Code:</label>
+            <input type="text" id="emiBankCode" name="emiBankCode">
+            <br>
+            <label for="tenure">Tenure:</label>
+            <input type="text" id="tenure" name="tenure">
+        </div>
+        <br>
+        <button type="submit">Make Payment</button>
+    </form>
+    <script>
+        const paymentForm = document.getElementById('paymentForm');
+        const paymode = document.getElementById('paymode');
+        const bankCodeDiv = document.getElementById('bankCodeDiv');
+        const cardDetailsDiv = document.getElementById('cardDetailsDiv');
+        const vpaDiv = document.getElementById('vpaDiv');
+        const emiDiv = document.getElementById('emiDiv');
+        paymentForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting
+            // Implement form validation and submission logic here
+            // You can use JavaScript to validate inputs and post data to the PHP file
+            // For simplicity, validation is not included in this example.
+        });
+        paymode.addEventListener('change', function () {
+            hideAllFields();
+            const selectedMode = paymode.value;
+            if (selectedMode === 'NB') {
+                bankCodeDiv.style.display = 'block';
+            } else if (selectedMode === 'Card') {
+                cardDetailsDiv.style.display = 'block';
+            } else if (selectedMode === 'UPI Collect') {
+                vpaDiv.style.display = 'block';
+            } else if (selectedMode === 'EMI') {
+                emiDiv.style.display = 'block';
+            }
+        });
+
+        function hideAllFields() {
+            bankCodeDiv.style.display = 'none';
+            cardDetailsDiv.style.display = 'none';
+            vpaDiv.style.display = 'none';
+            emiDiv.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
